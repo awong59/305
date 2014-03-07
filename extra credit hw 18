@@ -1,0 +1,113 @@
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.Date;
+
+/**
+  * Method to convert time to military style
+  *@param a time to be converted to military time
+  * @pre must be valid time DateTime.SHORT format
+  * @returns a copy of the time converted to military time without the colon 
+*/
+
+
+public class convertDBC
+{
+    public static String convert(String date)
+    {
+        DateFormat format = DateFormat.getTimeInstance(DateFormat.SHORT);
+        try
+        {
+            Date change = format.parse(date);
+            SimpleDateFormat militaryTime = new SimpleDateFormat("HHmm");
+            return militaryTime.format(change);
+        }
+        catch(ParseException pe) {
+            System.out.println("ERROR: could not parse date");
+        }
+        return "Did not have correct format";
+
+    }
+    public static void main(String[] args)
+    {
+        // call with preconditions satisfied
+        Date now = new Date();
+        System.out.println("DateFormat.SHORT = " + DateFormat.getTimeInstance(DateFormat.SHORT).format(now));
+        System.out.println("Military time is: " + convert(DateFormat.getTimeInstance(DateFormat.SHORT).format(now)));
+        
+        //contains non-DateFormat.SHORt so result is unsatisfied
+        System.out.println("Wrong format: " + convert("!@#$%"));
+    }
+
+
+}
+
+
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.util.Date;
+
+/**
+  * Method to convert time to military style
+  *@param a time to be converted to military time
+  * @pre must be valid time DateTime.SHORT format
+  * @returns a copy of the time converted to military time without the colon 
+*/
+
+
+public class convertNoDBC
+{
+    public static String convert(String date)
+    {
+        if(date == null) return null;
+        if(date.length() <= 0) return null;
+        
+        DateFormat format = DateFormat.getTimeInstance(DateFormat.SHORT);
+        
+        if(date.substring(date.length()-2, date.length()).equals("AM") ||
+            date.substring(date.length()-2, date.length()).equals("PM"))
+        {
+            try
+            {
+                Date change = format.parse(date);
+                SimpleDateFormat militaryTime = new SimpleDateFormat("HHmm");
+                return militaryTime.format(change);
+            }
+            catch(ParseException pe) {
+                System.out.println("ERROR: could not parse date");
+            }
+        }
+        else
+        {
+            return "Did not have correct format";
+        }
+        return "";
+
+    }
+    public static void main(String[] args)
+    {
+        // call with preconditions satisfied
+        Date now = new Date();
+        System.out.println("DateFormat.SHORT = " + DateFormat.getTimeInstance(DateFormat.SHORT).format(now));
+        System.out.println("Military time is: " + convert(DateFormat.getTimeInstance(DateFormat.SHORT).format(now)));
+        
+        //contains non-DateFormat.SHORt so result is unsatisfied
+        System.out.println("Wrong format: " + convert("!@#$%"));
+        
+        //check null input
+        String checkNull = null;
+        System.out.println("Null: " + convert(checkNull));
+        
+        // check zero string length
+        String zero = "";
+        System.out.println("Zero length: " +  convert(zero));
+        
+        //check for correct time format
+        String noAMPM = "5:00";
+        System.out.println("No AM or PM: " + convert(noAMPM));
+    }
+
+
+}
